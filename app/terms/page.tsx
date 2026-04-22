@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Service | SynapseTime",
@@ -55,7 +55,7 @@ export default function TermsOfServicePage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-[#00FFFF]">6. Governing Law</h2>
           <p>
-            These Terms shall be governed and construed in accordance with the laws of [Your Country/State, e.g., France], without regard to its conflict of law provisions.
+            These Terms shall be governed and construed in accordance with the laws of Quebec, Canada, without regard to its conflict of law provisions.
           </p>
         </section>
 
