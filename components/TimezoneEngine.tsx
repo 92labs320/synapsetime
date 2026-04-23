@@ -166,7 +166,7 @@ export default function TimezoneEngine() {
             <span style={{ color: '#00FFFF' }}>SYNAPSE</span>
             <span className="text-white">TIME</span>
           </h1>
-          <p className="text-gray-600 text-xs mt-1 tracking-wide">
+          <p className="text-gray-300 text-xs mt-1 tracking-wide">
             Drag any cursor · all zones sync in real time
           </p>
         </div>
@@ -281,21 +281,21 @@ export default function TimezoneEngine() {
             className="w-3 h-2.5 rounded-sm"
             style={{ backgroundColor: 'rgba(34,197,94,0.6)' }}
           />
-          <span className="text-gray-500">Work (9h–18h)</span>
+          <span className="text-gray-300">Work (9h–18h)</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div
             className="w-3 h-2.5 rounded-sm"
             style={{ backgroundColor: 'rgba(249,115,22,0.6)' }}
           />
-          <span className="text-gray-500">Leisure (18h–23h)</span>
+          <span className="text-gray-300">Leisure (18h–23h)</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div
             className="w-3 h-2.5 rounded-sm"
             style={{ backgroundColor: 'rgba(239,68,68,0.6)' }}
           />
-          <span className="text-gray-500">Sleep (23h–9h)</span>
+          <span className="text-gray-300">Sleep (23h–9h)</span>
         </div>
       </div>
 
@@ -337,7 +337,7 @@ export default function TimezoneEngine() {
       {/* ── Footer ── */}
       {zones.length > 0 && (
         <footer className="text-center pt-2 border-t border-gray-900">
-          <p className="text-gray-800 text-xs">
+          <p className="text-gray-400 text-xs">
             {zones.length} zone{zones.length !== 1 ? 's' : ''} active ·
             Drag a cursor to freeze · &quot;Back to Live&quot; to resume
           </p>

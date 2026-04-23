@@ -135,7 +135,7 @@ export default function CitySlider({
               {city}
             </p>
             {region && (
-              <p className="text-gray-500 text-xs mt-0.5 truncate">{region}</p>
+              <p className="text-gray-400 text-xs mt-0.5 truncate">{region}</p>
             )}
           </div>
         </div>
@@ -222,7 +222,7 @@ export default function CitySlider({
         {HOUR_MARKS.map((h, i) => (
           <span
             key={h}
-            className="absolute text-[10px] text-gray-600 select-none"
+            className="absolute text-[10px] text-gray-400 select-none"
             style={{
               left:
                 i === 0
