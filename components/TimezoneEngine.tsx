@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import CitySlider from './CitySlider'
-import citiesData from '@/data/cities.json'
-
 interface SearchHit {
   label: string
   sublabel: string
@@ -65,6 +63,7 @@ export default function TimezoneEngine() {
   const [hits, setHits] = useState<SearchHit[]>([])
   const [showHits, setShowHits] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
+  const [citiesData, setCitiesData] = useState<Array<{ name: string; country: string; timezone: string }>>([])
 
   const allTZ = useRef<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
@@ -72,6 +71,12 @@ export default function TimezoneEngine() {
 
   useEffect(() => {
     allTZ.current = getAllTimezones()
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/cities')
+      .then(r => r.json())
+      .then(data => setCitiesData(data))
   }, [])
 
   // Live clock — ticks every second when not frozen
