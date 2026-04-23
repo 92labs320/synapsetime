@@ -2,6 +2,13 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import CitySlider from './CitySlider'
+import citiesData from '@/data/cities.json'
+
+interface SearchHit {
+  label: string
+  sublabel: string
+  timezone: string
+}
 
 const DEFAULT_ZONES = ['America/New_York', 'Europe/Paris', 'Asia/Tokyo']
 
@@ -55,7 +62,7 @@ export default function TimezoneEngine() {
   const [refTime, setRefTime] = useState<Date>(() => new Date())
   const [isLive, setIsLive] = useState(true)
   const [query, setQuery] = useState('')
-  const [hits, setHits] = useState<string[]>([])
+  const [hits, setHits] = useState<SearchHit[]>([])
   const [showHits, setShowHits] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
 
@@ -98,16 +105,33 @@ export default function TimezoneEngine() {
         return
       }
       const q = value.toLowerCase()
-      const results = allTZ.current
-        .filter(tz => !zones.includes(tz))
+
+      // Primary: search cities.json by name or country
+      const cityHits: SearchHit[] = citiesData
+        .filter(c => !zones.includes(c.timezone))
+        .filter(
+          c =>
+            c.name.toLowerCase().includes(q) ||
+            c.country.toLowerCase().includes(q)
+        )
+        .map(c => ({ label: c.name, sublabel: c.country, timezone: c.timezone }))
+        .slice(0, 8)
+
+      // Fallback: supplement with raw Intl timezones if fewer than 8 results
+      const cityTZSet = new Set(cityHits.map(h => h.timezone))
+      const intlHits: SearchHit[] = allTZ.current
+        .filter(tz => !zones.includes(tz) && !cityTZSet.has(tz))
         .filter(
           tz =>
             tz.toLowerCase().includes(q) ||
             tz.toLowerCase().replace(/_/g, ' ').includes(q)
         )
-        .slice(0, 8)
-      setHits(results)
-      setShowHits(results.length > 0)
+        .slice(0, 8 - cityHits.length)
+        .map(tz => ({ label: tzCity(tz), sublabel: tzRegion(tz), timezone: tz }))
+
+      const allHits = [...cityHits, ...intlHits]
+      setHits(allHits)
+      setShowHits(allHits.length > 0)
     },
     [zones]
   )
@@ -148,8 +172,8 @@ export default function TimezoneEngine() {
         break
       case 'Enter':
         e.preventDefault()
-        if (activeIdx >= 0) pickZone(hits[activeIdx])
-        else if (hits.length > 0) pickZone(hits[0])
+        if (activeIdx >= 0) pickZone(hits[activeIdx].timezone)
+        else if (hits.length > 0) pickZone(hits[0].timezone)
         break
       case 'Escape':
         setShowHits(false)
@@ -250,11 +274,11 @@ export default function TimezoneEngine() {
             className="absolute z-50 w-full mt-1 rounded-xl border border-gray-800 overflow-hidden animate-fade-in"
             style={{ backgroundColor: '#080808' }}
           >
-            {hits.map((tz, idx) => (
+            {hits.map((hit, idx) => (
               <button
-                key={tz}
+                key={`${hit.timezone}-${hit.label}`}
                 type="button"
-                onClick={() => pickZone(tz)}
+                onClick={() => pickZone(hit.timezone)}
                 className="w-full flex items-center justify-between px-4 py-2.5 text-left transition-colors hover:bg-gray-900/70"
                 style={{
                   backgroundColor:
@@ -264,9 +288,9 @@ export default function TimezoneEngine() {
                   }`,
                 }}
               >
-                <span className="text-white text-sm">{tzCity(tz)}</span>
+                <span className="text-white text-sm">{hit.label}</span>
                 <span className="text-gray-600 text-xs ml-4 truncate">
-                  {tzRegion(tz)}
+                  {hit.sublabel}
                 </span>
               </button>
             ))}
