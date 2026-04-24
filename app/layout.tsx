@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     title: 'SynapseTime',
     description: 'Minimalist timezone comparison tool for remote teams.',
   },
+  other: {
+    'google-adsense-account': 'ca-pub-6306643748957162',
+  },
 }
 
 export default function RootLayout({
