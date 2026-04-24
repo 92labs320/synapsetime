@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "chicago",
   ];
 
-  const cities = citiesData as { slug: string }[];
+  const cities = citiesData as { name: string; country: string; timezone: string; slug: string }[];
 
   // Generate combinations: each hub vs each city in the 500 list
   const combinations: MetadataRoute.Sitemap = [];
