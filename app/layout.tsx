@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const jetbrainsMono = JetBrains_Mono({
@@ -35,6 +36,18 @@ export default function RootLayout({
     <html lang="en" className={jetbrainsMono.variable}>
       <body className="bg-black text-white font-mono min-h-screen antialiased">
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-8QJJ015HJL"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8QJJ015HJL');
+          `}
+        </Script>
       </body>
     </html>
   )
