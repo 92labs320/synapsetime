@@ -138,7 +138,7 @@ export default function TimezoneEngine() {
       setHits(allHits)
       setShowHits(allHits.length > 0)
     },
-    [zones]
+    [zones, citiesData]
   )
 
   const pickZone = useCallback((tz: string) => {
