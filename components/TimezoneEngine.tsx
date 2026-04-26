@@ -345,8 +345,8 @@ export default function TimezoneEngine() {
                 d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <p className="text-sm">No timezones added</p>
-            <p className="text-xs text-gray-800">
+            <p className="text-sm text-gray-400">No timezones added</p>
+            <p className="text-xs text-gray-400">
               Search for a city above to get started
             </p>
           </div>
