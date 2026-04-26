@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     title: 'SynapseTime',
     description: 'Minimalist timezone comparison tool for remote teams.',
   },
+  icons: {
+    icon: '/favicon.png',
+  },
   other: {
     'google-adsense-account': 'ca-pub-6306643748957162',
   },
