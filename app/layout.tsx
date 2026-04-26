@@ -26,7 +26,10 @@ export const metadata: Metadata = {
     description: 'Minimalist timezone comparison tool for remote teams.',
   },
   icons: {
-    icon: '/favicon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+    ],
   },
   other: {
     'google-adsense-account': 'ca-pub-6306643748957162',
