@@ -6,6 +6,7 @@ import { format } from 'date-fns'
 
 interface CitySliderProps {
   timezone: string
+  cityName?: string
   referenceTime: Date
   onDrag: (newTime: Date) => void
   onRemove: () => void
@@ -57,6 +58,7 @@ const HOUR_MARKS = [0, 6, 12, 18, 24] as const
 
 export default function CitySlider({
   timezone,
+  cityName,
   referenceTime,
   onDrag,
   onRemove,
@@ -132,7 +134,7 @@ export default function CitySlider({
           />
           <div className="min-w-0">
             <p className="text-white font-bold text-base leading-tight truncate">
-              {city}
+              {cityName ?? city}
             </p>
             {region && (
               <p className="text-gray-400 text-xs mt-0.5 truncate">{region}</p>

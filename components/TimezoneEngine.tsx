@@ -64,6 +64,7 @@ export default function TimezoneEngine() {
   const [showHits, setShowHits] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
   const [citiesData, setCitiesData] = useState<Array<{ name: string; country: string; timezone: string }>>([])
+  const [zoneLabels, setZoneLabels] = useState<Record<string, string>>({})
 
   const allTZ = useRef<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
@@ -141,8 +142,9 @@ export default function TimezoneEngine() {
     [zones, citiesData]
   )
 
-  const pickZone = useCallback((tz: string) => {
+  const pickZone = useCallback((tz: string, label?: string) => {
     setZones(prev => (prev.includes(tz) ? prev : [...prev, tz]))
+    if (label) setZoneLabels(prev => ({ ...prev, [tz]: label }))
     setQuery('')
     setHits([])
     setShowHits(false)
@@ -152,6 +154,7 @@ export default function TimezoneEngine() {
 
   const removeZone = useCallback((tz: string) => {
     setZones(prev => prev.filter(z => z !== tz))
+    setZoneLabels(prev => { const next = { ...prev }; delete next[tz]; return next })
   }, [])
 
   const handleDrag = useCallback((t: Date) => {
@@ -177,8 +180,8 @@ export default function TimezoneEngine() {
         break
       case 'Enter':
         e.preventDefault()
-        if (activeIdx >= 0) pickZone(hits[activeIdx].timezone)
-        else if (hits.length > 0) pickZone(hits[0].timezone)
+        if (activeIdx >= 0) pickZone(hits[activeIdx].timezone, hits[activeIdx].label)
+        else if (hits.length > 0) pickZone(hits[0].timezone, hits[0].label)
         break
       case 'Escape':
         setShowHits(false)
@@ -283,7 +286,7 @@ export default function TimezoneEngine() {
               <button
                 key={`${hit.timezone}-${hit.label}`}
                 type="button"
-                onClick={() => pickZone(hit.timezone)}
+                onClick={() => pickZone(hit.timezone, hit.label)}
                 className="w-full flex items-center justify-between px-4 py-2.5 text-left transition-colors hover:bg-gray-900/70"
                 style={{
                   backgroundColor:
@@ -355,6 +358,7 @@ export default function TimezoneEngine() {
             <CitySlider
               key={tz}
               timezone={tz}
+              cityName={zoneLabels[tz]}
               referenceTime={refTime}
               onDrag={handleDrag}
               onRemove={() => removeZone(tz)}
